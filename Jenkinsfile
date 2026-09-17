@@ -9,7 +9,8 @@ pipeline {
     agent none // each stage declares its own agent, not one agent for whole pipeline
 
     options {
-        disableConcurrentBuilds()                       // avoid concurrent builds racing to push the same tag
+        skipDefaultCheckout(true) // checkout scm - default behaviour to skip it
+	disableConcurrentBuilds()                       // avoid concurrent builds racing to push the same tag
         buildDiscarder(logRotator(numToKeepStr: '10'))   // keep logs bounded
     }
 
