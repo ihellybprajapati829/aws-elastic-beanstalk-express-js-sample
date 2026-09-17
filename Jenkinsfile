@@ -25,7 +25,7 @@ pipeline {
             agent any
             steps {
                 checkout scm
-                stash name: 'source', useDefaultExcludes: false, includes: '**'
+                stash name: 'source', includes: '**'
             }
         }
 
