@@ -33,7 +33,6 @@ pipeline {
             agent {
                 docker {
                     image 'node:16'
-                    args '-u root:root'   // avoids file-permission mismatches between the node:16 image's default user and the files unstashed into the workspace
                 }
             }
             steps {
