@@ -92,7 +92,6 @@ pipeline {
     post {
         always {
             node('') {
-                cleanWs()   // clear the controller-side workspace after every run
             }
         }
         failure {
