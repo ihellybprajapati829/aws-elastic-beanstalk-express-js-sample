@@ -9,7 +9,6 @@ pipeline {
     agent none // each stage declares its own agent, not one agent for whole pipeline
 
     options {
-        //timestamps()                                   // timestamp for every log 
         disableConcurrentBuilds()                       // avoid concurrent builds racing to push the same tag
         buildDiscarder(logRotator(numToKeepStr: '10'))   // keep logs bounded
     }
