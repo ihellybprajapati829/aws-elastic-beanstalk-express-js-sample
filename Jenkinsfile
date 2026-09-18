@@ -63,6 +63,28 @@ pipeline {
             }
         }
 
+	// Trivy - Vulnerability Scanner
+	stage('Security Scanning'){
+	    agent any 
+	    steps {
+	    	sh "trivy image --severity HIGH,CRITICAL --format table --output trivy-report.txt ${IMAGE_NAME}:${IMAGE_TAG}"
+	    }
+	    post {
+                always {
+                    archiveArtifacts artifacts: 'trivy-report.txt', fingerprint: true
+                }
+            }
+	}
+
+	stage('Security Gate') {
+            agent any
+            steps {
+                //  if any High or Critical vulnerabilities found, stopping the pipeline BEFORE the image ever reaches Push to Registry with exit code
+                sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --quiet ${IMAGE_NAME}:${IMAGE_TAG}"
+            }
+        }
+
+
         stage('Push to Registry') {
             agent any
             steps {
