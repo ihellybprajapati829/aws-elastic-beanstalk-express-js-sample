@@ -82,6 +82,14 @@ pipeline {
                 //  if any High or Critical vulnerabilities found, stopping the pipeline BEFORE the image ever reaches Push to Registry with exit code
                 sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --quiet ${IMAGE_NAME}:${IMAGE_TAG}"
             }
+	    post {
+	    	failure{
+		 	echo "Security gate - FAILED: High or Critical severity vulnerabilities are detected. Push to Registry has been blocked from reaching the container registry."
+		}
+		success{
+			echo "Security gate - PASSED."
+		}
+            }
         }
 
 
